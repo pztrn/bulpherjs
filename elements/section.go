@@ -1,10 +1,16 @@
 package elements
 
 import (
+	"strings"
+
 	"github.com/gopherjs/gopherjs/js"
 
 	"go.dev.pztrn.name/bulpherjs/common"
 	"go.dev.pztrn.name/bulpherjs/metas"
+)
+
+const (
+	sectionDefaultClass = "section"
 )
 
 // SectionOptions is a "section" HTML element configuration structure.
@@ -30,6 +36,17 @@ func NewSection(sectionOptions *SectionOptions) *Section {
 // Build builds element and calls Build() for all child elements.
 func (s *Section) Build() *js.Object {
 	s.Object = js.Global.Get(common.HTMLElementDocument).Call(common.JSCallCreateElement, common.HTMLElementSection)
+
+	if s.options == nil {
+		s.AddClassesFromString(sectionDefaultClass)
+		s.BuildChilds(s.Object)
+
+		return s.Object
+	}
+
+	if !strings.Contains(s.options.Class, "section") {
+		s.options.Class += " section"
+	}
 
 	if s.options.Class != "" {
 		s.AddClassesFromString(s.options.Class)

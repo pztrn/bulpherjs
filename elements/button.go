@@ -1,10 +1,16 @@
 package elements
 
 import (
+	"strings"
+
 	"github.com/gopherjs/gopherjs/js"
 
 	"go.dev.pztrn.name/bulpherjs/common"
 	"go.dev.pztrn.name/bulpherjs/metas"
+)
+
+const (
+	buttonDefaultClass = "button"
 )
 
 // ButtonOptions is a "button" HTML element configuration structure.
@@ -35,7 +41,15 @@ func (b *Button) Build() *js.Object {
 	b.Object = js.Global.Get(common.HTMLElementDocument).Call(common.JSCallCreateElement, common.HTMLElementButton)
 
 	if b.options == nil {
+		b.AddClassesFromString(buttonDefaultClass)
+		b.BuildChilds(b.Object)
+
 		return b.Object
+	}
+
+	// Button should always have "button" class.
+	if !strings.Contains(b.options.Class, "button") {
+		b.options.Class += " button"
 	}
 
 	if b.options.Class != "" {

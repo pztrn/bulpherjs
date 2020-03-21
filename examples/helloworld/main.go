@@ -18,7 +18,7 @@ func main() {
 }
 
 func constructBody() {
-	mainSection := elements.NewSection(&elements.SectionOptions{Class: "section"})
+	mainSection := elements.NewSection(nil)
 
 	mainDiv := elements.NewDiv(&elements.DivOptions{
 		Class: "container",
@@ -40,7 +40,7 @@ func constructBody() {
 	columnsDiv.AddChild(centerDiv)
 
 	startTestButton := elements.NewButton(&elements.ButtonOptions{
-		Class: "button is-large is-rounded is-primary",
+		Class: "is-large is-rounded is-primary",
 		ID:    "main_button",
 		Text:  "Click Me!",
 		OnClickHandler: func(e *js.Object) {

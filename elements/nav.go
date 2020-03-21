@@ -1,10 +1,16 @@
 package elements
 
 import (
+	"strings"
+
 	"github.com/gopherjs/gopherjs/js"
 
 	"go.dev.pztrn.name/bulpherjs/common"
 	"go.dev.pztrn.name/bulpherjs/metas"
+)
+
+const (
+	navDefaultClass = "navbar"
 )
 
 // NavOptions is a "nav" HTML element configuration structure.
@@ -33,7 +39,14 @@ func (n *Nav) Build() *js.Object {
 	n.Object = js.Global.Get(common.HTMLElementDocument).Call(common.JSCallCreateElement, common.HTMLElementNav)
 
 	if n.options == nil {
+		n.AddClassesFromString(navDefaultClass)
+		n.BuildChilds(n.Object)
+
 		return n.Object
+	}
+
+	if !strings.Contains(n.options.Class, "navbar") {
+		n.options.Class += " navbar"
 	}
 
 	if n.options.Class != "" {

@@ -20,7 +20,7 @@ type Generic struct {
 // AddClassesFromString adds classes to object from string. Classes
 // should be specified like "class1 class2 ... classN".
 func (g *Generic) AddClassesFromString(classes string) {
-	classesSplitted := strings.Split(classes, " ")
+	classesSplitted := strings.Split(strings.Trim(classes, " "), " ")
 
 	for _, class := range classesSplitted {
 		g.Object.Get(common.HTMLElementParameterClassList).Call(common.JSCallAdd, class)
