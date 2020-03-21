@@ -1,0 +1,24 @@
+run:
+  deadline: 5m
+linters:
+  enable-all: true
+  disable:
+    # Because globals might exist, but according to our codestyle they
+    # should be lowercased and considered as unexported.
+    - gochecknoglobals
+    # While it might be useful it'll create more problems that will solve.
+    - gocritic
+    # This linter goes crazy for nothing (almost).
+    - funlen
+    # Code duplications checks are good, but not for right now. This linter
+    # should be enabled later, when 1.0.0 will be released.
+    - dupl
+    # Magic numbers everywhere.
+    - gomnd
+linters-settings:
+  lll:
+    line-length: 420
+  gocyclo:
+    min-complexity: 40
+  gocognit:
+    min-complexity: 50
