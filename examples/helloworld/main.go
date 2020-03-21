@@ -41,9 +41,11 @@ func constructBody() {
 
 	startTestButton := elements.NewButton(&elements.ButtonOptions{
 		Class: "button is-large is-rounded is-primary",
+		ID:    "main_button",
 		Text:  "Click Me!",
 		OnClickHandler: func(e *js.Object) {
 			common.Log("Button clicked! Hooray")
+			js.Global.Get(common.HTMLElementDocument).Call("getElementById", "main_button").Set("textContent", "Clicked!")
 		},
 	})
 	centerDiv.AddChild(startTestButton)
