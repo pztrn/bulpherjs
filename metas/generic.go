@@ -56,6 +56,11 @@ func (g *Generic) InitializeGeneric() {
 	g.initializeInnerItems()
 }
 
+// SetHandler sets handler function for specific event.
+func (g *Generic) SetHandler(event string, handler func(e *js.Object)) {
+	g.Object.Set(event, handler)
+}
+
 // SetTextContent sets text content for passed object. Note that not
 // all HTML elements able to display it.
 func (g *Generic) SetTextContent(text string) {
