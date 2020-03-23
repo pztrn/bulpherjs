@@ -21,8 +21,7 @@ func (it *InnerItems) AddChild(object Buildable) {
 // BuildChilds build child elements and adds them to parent.
 func (it *InnerItems) BuildChilds(parent *js.Object) {
 	for _, item := range it.innerItems {
-		itemObj := item.Build()
-		parent.Call(common.JSCallAppendChild, itemObj)
+		parent.Call(common.JSCallAppendChild, item.Build())
 	}
 }
 

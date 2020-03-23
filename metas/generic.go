@@ -33,3 +33,9 @@ func (g *Generic) AddClassesFromString(classes string) {
 func (g *Generic) InitializeGeneric() {
 	g.initializeInnerItems()
 }
+
+// SetTextContent sets text content for passed object. Note that not
+// all HTML elements able to display it.
+func (g *Generic) SetTextContent(text string) {
+	g.Object.Set("textContent", text)
+}

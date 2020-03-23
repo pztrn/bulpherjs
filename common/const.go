@@ -12,6 +12,13 @@ const (
 	HTMLElementNav      = "nav"
 	HTMLElementP        = "p"
 	HTMLElementSection  = "section"
+	HTMLElementTable    = "table"
+	HTMLElementTBody    = "tbody"
+	HTMLElementTD       = "td"
+	HTMLElementTFoot    = "tfoot"
+	HTMLElementTH       = "th"
+	HTMLElementTHead    = "thead"
+	HTMLElementTR       = "tr"
 
 	HTMLElementParameterClassList = "classList"
 	HTMLElementParameterHref      = "href"

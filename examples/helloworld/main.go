@@ -28,14 +28,14 @@ func constructBody() {
 
 	// Columns divs.
 	columnsDiv := elements.NewDiv(&elements.DivOptions{
-		Class: "columns",
+		Class: "columns is-centered",
 		ID:    "mainColumns",
 	})
 	mainDiv.AddChild(columnsDiv)
 
 	// Click-Me button should be in the middle of screen.
 	centerDiv := elements.NewDiv(&elements.DivOptions{
-		Class: "column is-half is-offset-two-fifths",
+		Class: "column is-half",
 	})
 	columnsDiv.AddChild(centerDiv)
 
@@ -50,6 +50,9 @@ func constructBody() {
 	})
 	centerDiv.AddChild(startTestButton)
 
+	constructTable(mainDiv)
+
+	// Build final document.
 	js.Global.Get(common.HTMLElementDocument).
 		Get(common.HTMLElementBody).
 		Call(common.JSCallAppendChild, mainSection.Build())
@@ -72,4 +75,68 @@ func constructHeader() {
 	js.Global.Get(common.HTMLElementDocument).Get(common.HTMLElementHead).Call(common.JSCallAppendChild, metaViewport.Build())
 
 	js.Global.Get(common.HTMLElementDocument).Set(common.HTMLHeadElementTitle, "BulpherJS Hello World application")
+}
+
+func constructTable(mainDiv *elements.Div) {
+	// Columns divs.
+	columnsDiv := elements.NewDiv(&elements.DivOptions{
+		Class: "columns is-centered",
+		ID:    "tableColumns",
+	})
+	mainDiv.AddChild(columnsDiv)
+
+	tableDiv := elements.NewDiv(&elements.DivOptions{
+		Class: "column is-half",
+	})
+	columnsDiv.AddChild(tableDiv)
+
+	testTable := elements.NewTable(&elements.TableOptions{
+		IsBordered:  true,
+		IsFullWidth: true,
+		IsHoverable: true,
+		IsNarrow:    true,
+	})
+	tableDiv.AddChild(testTable)
+
+	tableHeader := elements.NewTHead()
+	testTable.AddChild(tableHeader)
+
+	tableHeaderLine := elements.NewTR()
+	tableHeader.AddChild(tableHeaderLine)
+
+	thlOne := elements.NewTH()
+	thlOne.SetTextContent("Header")
+	tableHeaderLine.AddChild(thlOne)
+
+	thlTwo := elements.NewTH()
+	thlTwo.SetTextContent("line")
+	tableHeaderLine.AddChild(thlTwo)
+
+	tableBody := elements.NewTBody()
+	testTable.AddChild(tableBody)
+
+	tableBodyLine := elements.NewTR()
+	tableBody.AddChild(tableBodyLine)
+
+	tblOne := elements.NewTD()
+	tblOne.SetTextContent("Body")
+	tableBodyLine.AddChild(tblOne)
+
+	tblTwo := elements.NewTD()
+	tblTwo.SetTextContent("line")
+	tableBodyLine.AddChild(tblTwo)
+
+	tableFooter := elements.NewTFoot()
+	testTable.AddChild(tableFooter)
+
+	tableFooterLine := elements.NewTR()
+	tableFooter.AddChild(tableFooterLine)
+
+	tflOne := elements.NewTD()
+	tflOne.SetTextContent("Footer")
+	tableFooterLine.AddChild(tflOne)
+
+	tflTwo := elements.NewTD()
+	tflTwo.SetTextContent("line")
+	tableFooterLine.AddChild(tflTwo)
 }
