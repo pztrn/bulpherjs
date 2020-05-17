@@ -100,6 +100,8 @@ func constructTable(mainDiv *elements.Div) {
 		IsFullWidth: true,
 		IsHoverable: true,
 		IsNarrow:    true,
+
+		Header: []string{"Header", "Line"},
 	})
 	tableDiv.AddChild(testTable)
 
@@ -108,14 +110,6 @@ func constructTable(mainDiv *elements.Div) {
 
 	tableHeaderLine := elements.NewTR()
 	tableHeader.AddChild(tableHeaderLine)
-
-	thlOne := elements.NewTH()
-	thlOne.SetTextContent("Header")
-	tableHeaderLine.AddChild(thlOne)
-
-	thlTwo := elements.NewTH()
-	thlTwo.SetTextContent("line")
-	tableHeaderLine.AddChild(thlTwo)
 
 	tableBody := elements.NewTBody()
 	testTable.AddChild(tableBody)

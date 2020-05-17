@@ -43,6 +43,8 @@ type TableOptions struct {
 	IsHoverable bool
 	IsNarrow    bool
 	IsStriped   bool
+
+	Header []string
 }
 
 // Table is a controlling structure for "table" HTML element.
@@ -107,6 +109,22 @@ func (t *Table) initialize(tableOpts *TableOptions) {
 	t.options = tableOpts
 
 	t.InitializeGeneric()
+
+	if t.options != nil {
+		if len(t.options.Header) != 0 {
+			theader := NewTHead()
+			t.AddChild(theader)
+
+			trow := NewTR()
+			theader.AddChild(trow)
+
+			for _, header := range t.options.Header {
+				th := NewTH()
+				th.SetTextContent(header)
+				trow.AddChild(th)
+			}
+		}
+	}
 
 	t.Object = js.Global.Get(common.HTMLElementDocument).Call(common.JSCallCreateElement, common.HTMLElementTable)
 }
