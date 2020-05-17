@@ -25,21 +25,25 @@ package main
 import (
 	"github.com/gopherjs/gopherjs/js"
 
+	"go.dev.pztrn.name/bulpherjs"
 	"go.dev.pztrn.name/bulpherjs/common"
 	"go.dev.pztrn.name/bulpherjs/elements"
 )
 
 func main() {
-	document := js.Global.Get("document")
-	document.Call("addEventListener", "DOMContentLoaded", func(event *js.Object) {
-		js.Global.Get("console").Call("log", "Hello world!")
-
-		constructHeader()
-		constructBody()
+	app := bulpherjs.NewApplication(&bulpherjs.ApplicationOptions{
+		Bulma: &bulpherjs.BulmaOptions{
+			Version: "0.8.0",
+		},
+		Name: "BulpherJS example application a.k.a. Hello World!",
 	})
+
+	app.SetStartFunction(start)
+	app.Start()
+	app.SetTitle("Hello world!")
 }
 
-func constructBody() {
+func start(a *bulpherjs.Application) {
 	mainSection := elements.NewSection(nil)
 
 	mainDiv := elements.NewDiv(&elements.DivOptions{
@@ -75,28 +79,7 @@ func constructBody() {
 	constructTable(mainDiv)
 
 	// Build final document.
-	js.Global.Get(common.HTMLElementDocument).
-		Get(common.HTMLElementBody).
-		Call(common.JSCallAppendChild, mainSection.Build())
-}
-
-func constructHeader() {
-	link := elements.NewLink(&elements.LinkOptions{
-		Href: "//cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css",
-		ID:   "",
-		Rel:  "stylesheet",
-	})
-
-	js.Global.Get(common.HTMLElementDocument).Get(common.HTMLElementHead).Call(common.JSCallAppendChild, link.Build())
-
-	metaViewport := elements.NewMeta(&elements.MetaOptions{
-		Content: "width=device-width, initial-scale=1",
-		Name:    "viewport",
-	})
-
-	js.Global.Get(common.HTMLElementDocument).Get(common.HTMLElementHead).Call(common.JSCallAppendChild, metaViewport.Build())
-
-	js.Global.Get(common.HTMLElementDocument).Set(common.HTMLHeadElementTitle, "BulpherJS Hello World application")
+	a.HTML.Body.AddChild(mainSection)
 }
 
 func constructTable(mainDiv *elements.Div) {

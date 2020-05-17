@@ -20,39 +20,60 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package metas
+package bulpherjs
 
 import (
 	"github.com/gopherjs/gopherjs/js"
 
 	"go.dev.pztrn.name/bulpherjs/common"
+	"go.dev.pztrn.name/bulpherjs/widgets"
 )
 
-// InnerItems is a meta structure that should be embedded in all other
-// structures (notably element controlling ones). It provide ability to
-// add child elements.
-type InnerItems struct {
-	innerItems []Buildable
+// Application is a controlling structure for whole application.
+type Application struct {
+	options   *ApplicationOptions
+	startFunc func(*Application)
+
+	HTML *widgets.HTML
 }
 
-// AddChild adds child to element.
-func (it *InnerItems) AddChild(object Buildable) {
-	it.innerItems = append(it.innerItems, object)
+// NewApplication creates new BulpherJS application.
+func NewApplication(opts *ApplicationOptions) *Application {
+	a := &Application{}
+	a.initialize(opts)
+
+	return a
 }
 
-// BuildChilds build child elements and adds them to parent.
-func (it *InnerItems) BuildChilds(parent *js.Object) {
-	for _, item := range it.innerItems {
-		parent.Call(common.JSCallAppendChild, item.Build())
-	}
+// Build builds HTML for application.
+func (a *Application) Build() {
+	a.HTML.Build()
 }
 
-// Initializes child elements storage.
-func (it *InnerItems) initializeInnerItems() {
-	it.innerItems = make([]Buildable, 0)
+// Initializes controlling structure.
+func (a *Application) initialize(opts *ApplicationOptions) {
+	a.options = opts
+
+	a.HTML = widgets.NewHTML()
 }
 
-// InnerItemsCount returns child items count.
-func (it *InnerItems) InnerItemsCount() int {
-	return len(it.innerItems)
+// SetStartFunction sets start function which will be executed on app's
+// Start() call.
+func (a *Application) SetStartFunction(f func(*Application)) {
+	a.startFunc = f
+}
+
+// SetTitle sets passed title as page title.
+func (a *Application) SetTitle(title string) {
+	a.HTML.Head.SetTitle(title)
+}
+
+// Start starts application execution.
+func (a *Application) Start() {
+	document := js.Global.Get(common.HTMLElementDocument)
+	document.Call(common.JSCallAddEventListener, common.JSEventDOMContentLoaded, func(event *js.Object) {
+		a.startFunc(a)
+
+		a.Build()
+	})
 }

@@ -20,39 +20,53 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package metas
+package widgets
 
 import (
 	"github.com/gopherjs/gopherjs/js"
 
 	"go.dev.pztrn.name/bulpherjs/common"
+	"go.dev.pztrn.name/bulpherjs/metas"
 )
 
-// InnerItems is a meta structure that should be embedded in all other
-// structures (notably element controlling ones). It provide ability to
-// add child elements.
-type InnerItems struct {
-	innerItems []Buildable
+// HTML is a controlling structure for HTML page.
+type HTML struct {
+	metas.Generic
+
+	Head *Head
+	Body *Body
 }
 
-// AddChild adds child to element.
-func (it *InnerItems) AddChild(object Buildable) {
-	it.innerItems = append(it.innerItems, object)
+// NewHTML creates new HTML page.
+func NewHTML() *HTML {
+	h := &HTML{}
+	h.initialize()
+
+	return h
 }
 
-// BuildChilds build child elements and adds them to parent.
-func (it *InnerItems) BuildChilds(parent *js.Object) {
-	for _, item := range it.innerItems {
-		parent.Call(common.JSCallAppendChild, item.Build())
-	}
+// Build builds HTML and all it's childs. For HTML object it'll return
+// nil.
+func (h *HTML) Build() *js.Object {
+	h.BuildChilds(h.Object)
+
+	js.Global.Get(common.HTMLElementDocument).Set(common.HTMLElementHTML, h.Object)
+
+	return nil
 }
 
-// Initializes child elements storage.
-func (it *InnerItems) initializeInnerItems() {
-	it.innerItems = make([]Buildable, 0)
-}
+// Initializes controlling structure.
+func (h *HTML) initialize() {
+	h.InitializeGeneric()
 
-// InnerItemsCount returns child items count.
-func (it *InnerItems) InnerItemsCount() int {
-	return len(it.innerItems)
+	h.Object = js.Global.Get(common.HTMLElementDocument).Get(common.HTMLElementDocumentElement)
+
+	h.Head = NewHead(&HeadOptions{})
+	h.Body = NewBody()
+
+	h.AddChild(h.Head)
+	h.AddChild(h.Body)
+
+	// Set default title. Use Body.SetTitle to override in your application.
+	h.Head.SetTitle("BulpherJS default application")
 }

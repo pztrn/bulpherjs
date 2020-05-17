@@ -20,39 +20,41 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package metas
+package widgets
 
 import (
 	"github.com/gopherjs/gopherjs/js"
 
 	"go.dev.pztrn.name/bulpherjs/common"
+	"go.dev.pztrn.name/bulpherjs/metas"
 )
 
-// InnerItems is a meta structure that should be embedded in all other
-// structures (notably element controlling ones). It provide ability to
-// add child elements.
-type InnerItems struct {
-	innerItems []Buildable
+// Body is a controlling structure for "body" HTML head element.
+type Body struct {
+	metas.Generic
 }
 
-// AddChild adds child to element.
-func (it *InnerItems) AddChild(object Buildable) {
-	it.innerItems = append(it.innerItems, object)
+// NewBody creates new "body" HTML element controlling structure.
+func NewBody() *Body {
+	b := &Body{}
+	b.initialize()
+
+	return b
 }
 
-// BuildChilds build child elements and adds them to parent.
-func (it *InnerItems) BuildChilds(parent *js.Object) {
-	for _, item := range it.innerItems {
-		parent.Call(common.JSCallAppendChild, item.Build())
-	}
+// Build builds child elements.
+func (b *Body) Build() *js.Object {
+	// This function is special - we should try to get <body> element only
+	// after DOMContentLoaded event was fired, otherwise there is no
+	// guarantee that <body> will ever exist.
+	b.Object = js.Global.Get(common.HTMLElementDocument).Get(common.HTMLElementBody)
+
+	b.BuildChilds(b.Object)
+
+	return b.Object
 }
 
-// Initializes child elements storage.
-func (it *InnerItems) initializeInnerItems() {
-	it.innerItems = make([]Buildable, 0)
-}
-
-// InnerItemsCount returns child items count.
-func (it *InnerItems) InnerItemsCount() int {
-	return len(it.innerItems)
+// Initializes controlling structure.
+func (b *Body) initialize() {
+	b.InitializeGeneric()
 }

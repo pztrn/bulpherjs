@@ -20,39 +20,20 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package metas
+package bulpherjs
 
-import (
-	"github.com/gopherjs/gopherjs/js"
-
-	"go.dev.pztrn.name/bulpherjs/common"
-)
-
-// InnerItems is a meta structure that should be embedded in all other
-// structures (notably element controlling ones). It provide ability to
-// add child elements.
-type InnerItems struct {
-	innerItems []Buildable
+// ApplicationOptions is a structure which holds application's options.
+type ApplicationOptions struct {
+	// Bulma is a Bulma CSS framework specific options.
+	Bulma *BulmaOptions
+	// Name is an application name as shown in title.
+	Name string
 }
 
-// AddChild adds child to element.
-func (it *InnerItems) AddChild(object Buildable) {
-	it.innerItems = append(it.innerItems, object)
-}
-
-// BuildChilds build child elements and adds them to parent.
-func (it *InnerItems) BuildChilds(parent *js.Object) {
-	for _, item := range it.innerItems {
-		parent.Call(common.JSCallAppendChild, item.Build())
-	}
-}
-
-// Initializes child elements storage.
-func (it *InnerItems) initializeInnerItems() {
-	it.innerItems = make([]Buildable, 0)
-}
-
-// InnerItemsCount returns child items count.
-func (it *InnerItems) InnerItemsCount() int {
-	return len(it.innerItems)
+// BulmaOptions is a structure that controls everything related to Bulma
+// CSS framework.
+type BulmaOptions struct {
+	// Version is a version of bulma to use. Warning: incorrectly set
+	// version might break your application.
+	Version string
 }
