@@ -58,8 +58,6 @@ func NewNav(navOptions *NavOptions) *Nav {
 
 // Build builds element and calls Build() for all child elements.
 func (n *Nav) Build() *js.Object {
-	n.Object = js.Global.Get(common.HTMLElementDocument).Call(common.JSCallCreateElement, common.HTMLElementNav)
-
 	if n.options == nil {
 		n.AddClassesFromString(navDefaultClass)
 		n.BuildChilds(n.Object)
@@ -95,4 +93,6 @@ func (n *Nav) initialize(navOptions *NavOptions) {
 	n.options = navOptions
 
 	n.InitializeGeneric()
+
+	n.Object = js.Global.Get(common.HTMLElementDocument).Call(common.JSCallCreateElement, common.HTMLElementNav)
 }
