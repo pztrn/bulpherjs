@@ -79,7 +79,7 @@ func (n *NavBar) initialize(opts *NavBarOptions) {
 
 		navMainLink := elements.NewA(&elements.AOptions{
 			Class: "navbar-item",
-			Href:  "//",
+			Href:  "/",
 			Text:  n.options.Title,
 		})
 
