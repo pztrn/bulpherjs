@@ -17,7 +17,7 @@ linters:
     - gomnd
 linters-settings:
   lll:
-    line-length: 420
+    line-length: 128
   gocyclo:
     min-complexity: 40
   gocognit:
