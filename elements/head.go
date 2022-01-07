@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	bulmaVersion = "0.8.0"
+	bulmaVersion = "0.9.3"
 )
 
 // HeadOptions is a "head" HTML head element configuration structure.

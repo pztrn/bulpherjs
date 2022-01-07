@@ -2,7 +2,6 @@ package bulpherjs
 
 import (
 	"github.com/gopherjs/gopherjs/js"
-
 	"go.dev.pztrn.name/bulpherjs/common"
 	"go.dev.pztrn.name/bulpherjs/elements"
 )
