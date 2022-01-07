@@ -1,9 +1,7 @@
-package widgets
+package elements
 
 import (
 	"github.com/gopherjs/gopherjs/js"
-
-	"go.dev.pztrn.name/bulpherjs/elements"
 )
 
 // NavBarOptions is a "nav" HTML body element configuration structure.
@@ -16,7 +14,7 @@ type NavBarOptions struct {
 type NavBar struct {
 	options *NavBarOptions
 
-	navbar *elements.Nav
+	navbar *Nav
 }
 
 // NewNavBar creates new "nav" HTML element controlling structure.
@@ -36,26 +34,26 @@ func (n *NavBar) Build() *js.Object {
 func (n *NavBar) initialize(opts *NavBarOptions) {
 	n.options = opts
 
-	navopts := &elements.NavOptions{
+	navopts := &NavOptions{
 		Class: "navbar",
 		Data:  map[string]string{},
 		Role:  "navigation",
 	}
 
-	n.navbar = elements.NewNav(navopts)
+	n.navbar = NewNav(navopts)
 
 	if n.options.IsDark {
 		n.navbar.AddClassesFromString("is-dark")
 	}
 
 	if n.options.Title != "" {
-		brandDiv := elements.NewDiv(&elements.DivOptions{
+		brandDiv := NewDiv(&DivOptions{
 			Class: "navbar-brand",
 		})
 
 		n.navbar.AddChild(brandDiv)
 
-		navMainLink := elements.NewA(&elements.AOptions{
+		navMainLink := NewA(&AOptions{
 			Class: "navbar-item",
 			Href:  "/",
 			Text:  n.options.Title,

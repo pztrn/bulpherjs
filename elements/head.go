@@ -1,10 +1,9 @@
-package widgets
+package elements
 
 import (
 	"github.com/gopherjs/gopherjs/js"
 
 	"go.dev.pztrn.name/bulpherjs/common"
-	"go.dev.pztrn.name/bulpherjs/elements"
 	"go.dev.pztrn.name/bulpherjs/metas"
 )
 
@@ -46,13 +45,13 @@ func (hw *Head) initialize(opts *HeadOptions) {
 	hw.Object = js.Global.Get(common.HTMLElementDocument).Call(common.JSCallGetElementsByTagName, common.HTMLElementHead).Index(0)
 
 	// Add default header elements.
-	hw.AddChild(elements.NewLink(&elements.LinkOptions{
+	hw.AddChild(NewLink(&LinkOptions{
 		Href: "//cdn.jsdelivr.net/npm/bulma@" + bulmaVersion + "/css/bulma.min.css",
 		ID:   "",
 		Rel:  "stylesheet",
 	}))
 
-	hw.AddChild(elements.NewMeta(&elements.MetaOptions{
+	hw.AddChild(NewMeta(&MetaOptions{
 		Content: "width=device-width, initial-scale=1",
 		Name:    "viewport",
 	}))

@@ -28,7 +28,6 @@ import (
 	"go.dev.pztrn.name/bulpherjs"
 	"go.dev.pztrn.name/bulpherjs/common"
 	"go.dev.pztrn.name/bulpherjs/elements"
-	"go.dev.pztrn.name/bulpherjs/widgets"
 )
 
 func main() {
@@ -45,7 +44,7 @@ func main() {
 }
 
 func start(a *bulpherjs.Application) {
-	nb := widgets.NewNavBar(&widgets.NavBarOptions{
+	nb := elements.NewNavBar(&elements.NavBarOptions{
 		IsDark: true,
 		Title:  "Example application",
 	})

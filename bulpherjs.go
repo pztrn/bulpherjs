@@ -4,7 +4,7 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 
 	"go.dev.pztrn.name/bulpherjs/common"
-	"go.dev.pztrn.name/bulpherjs/widgets"
+	"go.dev.pztrn.name/bulpherjs/elements"
 )
 
 // Application is a controlling structure for whole application.
@@ -12,7 +12,7 @@ type Application struct {
 	options   *ApplicationOptions
 	startFunc func(*Application)
 
-	HTML *widgets.HTML
+	HTML *elements.HTML
 }
 
 // NewApplication creates new BulpherJS application.
@@ -32,7 +32,7 @@ func (a *Application) Build() {
 func (a *Application) initialize(opts *ApplicationOptions) {
 	a.options = opts
 
-	a.HTML = widgets.NewHTML()
+	a.HTML = elements.NewHTML()
 }
 
 // SetStartFunction sets start function which will be executed on app's

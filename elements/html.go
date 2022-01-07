@@ -1,4 +1,4 @@
-package widgets
+package elements
 
 import (
 	"github.com/gopherjs/gopherjs/js"
